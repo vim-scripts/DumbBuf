@@ -1,0 +1,185 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=2783
+
+latest version at http://github.com/tyru/DumbBuf.vim/
+including missing versions, all versions are mirrored at http://github.com/tyru/DumbBuf.vim/downloads
+Japanese description is here: http://vim.g.hatena.ne.jp/tyru/20091030
+screenshot is here: http://f.hatena.ne.jp/tyru/20091031002751
+
+
+My .vimrc:
+  let dumbbuf_hotkey = '<Leader>b'
+  " sometimes I put <Esc> to close dumbbuf buffer,
+  " which was mapped to close QuickBuf's list :)
+  let dumbbuf_mappings = {
+      &#039n': {
+          &#039<Esc>': {'alias_to': 'q'},
+      \}
+  \}
+
+  let dumbbuf_wrap_cursor = 0
+  let dumbbuf_remove_marked_when_close = 1
+
+
+Mappings:
+  please define g:dumbbuf_hotkey at first.
+  if that is not defined, this script is not loaded.
+
+  Visual Mode:
+      x
+          mark buffers on selected region.
+          see Normal Mode's xx for details.
+
+  Normal Mode:
+      q
+          :close dumbbuf buffer.
+      g:dumbbuf_hotkey
+          toggle dumbbuf buffer.
+      <CR>
+          :edit buffer.
+      u
+         open one by one. this is same as QuickBuf's u.
+      s
+         :split buffer.
+      v
+         :vspilt buffer.
+      t
+         :tabedit buffer.
+      d
+         :bdelete buffer.
+      w
+         :bwipeout buffer.
+      l
+         toggle listed buffers or unlisted buffers.
+      c
+         :close buffer.
+      x
+          mark buffer.
+          if one or more marked buffers exist,
+          's', 'v', 't', 'd', 'w', 'c'
+          get to be able to execute for that buffers at a time.
+
+  and, if you turn on 'g:dumbbuf_single_key',
+  you can use single key mappings like QuickBuf.vim.
+  see 'g:dumbbuf_single_key' at 'Global Variables' for details.
+
+
+Global Variables:
+  g:dumbbuf_hotkey (default: no default value)
+      a mapping which calls dumbbuf buffer.
+      if this variable is not defined, this plugin will be not loaded.
+
+  g:dumbbuf_open_with (default: 'botright')
+      open dumbbuf buffer with this command.
+
+  g:dumbbuf_vertical (default: 0)
+      if true, open dumbbuf buffer vertically.
+
+  g:dumbbuf_buffer_height (default: 10)
+      dumbbuf buffer's height.
+      this is used when only g:dumbbuf_vertical is false.
+
+  g:dumbbuf_buffer_width (default: 25)
+      dumbbuf buffer's width.
+      this is used when only g:dumbbuf_vertical is true.
+
+  g:dumbbuf_listed_buffer_name (default: '__buffers__')
+      dumbbuf buffer's filename.
+      set this filename when showing 'listed buffers'.
+      'listed buffers' are opposite of 'unlisted-buffers'.
+      see ':help unlisted-buffer'.
+
+      NOTE: DON'T assign string which includes whitespace, or any special
+      characters like "*", "?", ",".
+      see :help file-pattern
+
+  g:dumbbuf_unlisted_buffer_name (default: '__unlisted_buffers__')
+      dumbbuf buffer's filename.
+      set this filename when showing 'unlisted buffers'.
+
+      NOTE: DON'T assign string which includes whitespace, or any special
+      characters like "*", "?", ",".
+      see :help file-pattern
+
+  g:dumbbuf_cursor_pos (default: 'current')
+      jumps to this position when dumbbuf buffer opens.
+      this is useful for deleting some buffers continuaslly.
+
+      'current':
+          jump to the current buffer's line.
+      'keep':
+          keep the cursor pos.
+      'top':
+          always jump to the top line.
+      'bottom':
+          always jump to the bottom line
+
+  g:dumbbuf_shown_type (default: '')
+      show this type of buffers list.
+
+      '':
+          if current buffer is unlisted, show unlisted buffers list.
+          if current buffer is listed, show listed buffers list.
+      'unlisted':
+          show always unlisted buffers list.
+      'listed':
+          show always listed buffers list.
+      'project':
+          show buffers each project.
+
+  g:dumbbuf_close_when_exec (default: 0)
+      if true, close when execute local mapping from dumbbuf buffer.
+
+  g:dumbbuf_remove_marked_when_close (default: 0)
+      remove all marked buffers on closing dumbbuf buffer.
+      this default value is for only backward compatibility.
+      (if I could fix this variable name...
+       'dumbbuf_close_when_exec' => 'dumbbuf_close_on_exec')
+
+  g:dumbbuf_downward (default: 1)
+      if true, go downwardly when 'u' mapping.
+      if false, go upwardly.
+
+  g:dumbbuf_hl_cursorline (default: "guibg=Red  guifg=White")
+      local value of highlight 'CursorLine' in dumbbuf buffer.
+
+  g:dumbbuf_wrap_cursor (default: 1)
+      wrap the cursor at the top or bottom of dumbbuf buffer.
+
+  g:dumbbuf_all_shown_types (default: ['listed', 'unlisted', 'project'])
+      all available shown types.
+
+  g:dumbbuf_timeoutlen (default: 0)
+      local value of &timeoutlen in dumbbuf buffer.
+
+
+  For The Experienced User:
+      g:dumbbuf_disp_expr (default: see the definition)
+          this variable is for the experienced users.
+
+          'v:val' has buffer's info.
+          NOTE: 'val' does NOT work now.
+
+      g:dumbbuf_options (default: see the definition)
+          this variable is for the experienced users.
+          dumbbuf buffer will be set up with these options.
+
+      g:dumbbuf_mappings (default: see the definition)
+          this variable is for the experienced users.
+          these settings will override default value.
+
+          if your .vimrc setting is
+
+            let g:dumbbuf_mappings = {
+                &#039n': {
+                    &#039<Esc>': {'alias_to': 'q'}
+                \}
+            \}
+
+          you can type <Esc> to close dumbbuf buffer.
+          no influences for other default mappings.
+
+          and there are some special keys:
+              'alias_to': 'map'
+                  make an alias for 'map'.
+              'swap_with': 'map'
+
